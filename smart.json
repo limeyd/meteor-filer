@@ -1,0 +1,9 @@
+{
+  "name": "filer",
+  "description": "A Multipart form handler for Meteor",
+  "author": "Darren Pearce <limeyd@gmail.com>",
+  "version": "0.0.1",
+  "packages": {
+    "node-modules": {}
+  }
+}
