@@ -29,7 +29,7 @@ See Filer.RespBody for the format.
         });
     filer.register('/upload');
 
-*Exposed formidable options:* See [Formidable Docs]https://github.com/felixge/node-formidable/blob/master/Readme.md#formidableincomingform
+*Exposed formidable options:* See [Formidable Docs](https://github.com/felixge/node-formidable/blob/master/Readme.md#formidableincomingform)
 for more details
 
 Defaults:
