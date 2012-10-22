@@ -50,12 +50,12 @@
     self._events = {};
 
     // only alow certain options
-    self._options = _.pick(options,
+    self._options = (options && _.pick(options,
                            'hash',
                            'maxFieldsSize',
                            'keepExtensions',
                            'encoding',
-                           'uploadDir');
+                           'uploadDir')) || {};
   }
 
   // Creates and registers and new Filer
