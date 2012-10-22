@@ -56,6 +56,7 @@
                            'keepExtensions',
                            'encoding',
                            'uploadDir')) || {};
+
   }
 
   // Creates and registers and new Filer
@@ -121,7 +122,7 @@
       if('multipart/form-data' !== contentType(request)) return next();
 
       // Check for Permission
-      if ( !self._allow() ){
+      if ( self._allow && !self._allow() ){
 
         // create Permission Denied response body
         var body = Filer.PermissionBody(false);
