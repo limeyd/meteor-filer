@@ -112,79 +112,87 @@
 
     // add middleware to connect
     app.use(function(request, response, next){
-      // ignore invalid paths
-      if(request.url !== route) return next();
+        // ignore invalid paths
+        if(request.url !== route) return next();
 
-      // ignore non POST requests
-      if(request.method !== 'POST') return next();
+        // ignore non POST requests
+        if(request.method !== 'POST') return next();
 
-      // ignore non Multipart posts
-      if('multipart/form-data' !== contentType(request)) return next();
+        // ignore non Multipart posts
+        if('multipart/form-data' !== contentType(request)) return next();
 
-      // Check for Permission
-      if ( self._allow && !self._allow() ){
+        // Check for Permission
+        if ( self._allow && !self._allow() ){
 
-        // create Permission Denied response body
-        var body = Filer.PermissionBody(false);
+          // create Permission Denied response body
+          var body = Filer.PermissionBody(false);
 
-        // return response
-        return response.end(body.stringify());
-      }
-
-      // create formidable form per request
-      var form = new formidable.IncomingForm();
-
-      // apply options to form
-      _.extend(form, self._options);
-
-      form.on('field', function(field, value){
-        // store fields value on Filer instance
-        self.fields[field] = value;
-      })
-      .on('file', function(field,file){
-        // store fields value on Filer instance
-        self.files[field] = file;
-      })
-      .on('error',function(err){
-        // XXX how should we handle this
-        console.log('err:',err);
-      });
-
-      // Customize the response.end()
-      form.on('end', function(){
-        var success;
-
-        // Check for custom end for RespBody
-        if( _.isFunction(self._events.end) ){
-          success = self._events.end.call(null, response);
-        }else{
-          success = new Filer.SuccessBody();
+          // return response
+          return response.end(body.stringify());
         }
 
-        // check for success boolean true
-        if(_.isBoolean(success)){
-          if(success){
-            // create success response body
-            success = new Filer.SuccessBody();
+        // create formidable form per request
+        var form = new formidable.IncomingForm();
+
+        // apply options to form
+        _.extend(form, self._options);
+
+        form.on('field', function(field, value){
+          // store fields value on Filer instance
+          self.fields[field] = value;
+        })
+        .on('file', function(field,file){
+          // store fields value on Filer instance
+          self.files[field] = file;
+        })
+        .on('error',function(err){
+          // XXX how should we handle this
+          console.log('err:',err);
+        });
+
+        // Customize the response.end()
+        form.on('end', function(){
+          var success;
+
+          // Check for custom end for RespBody
+          if( _.isFunction(self._events.end) ){
+            success = self._events.end.call(null, response);
           }else{
-            // create failed response body
-            success = new Filer.FailedBody();
+            success = new Filer.SuccessBody();
           }
-        }else if( !(success instanceof Filer.RespBody) ){
-          throw new Error('Success must be either a boolean or Filer.RespBody!');
+
+          // check for success boolean true
+          if(_.isBoolean(success)){
+            if(success){
+              // create success response body
+              success = new Filer.SuccessBody();
+            }else{
+              // create failed response body
+              success = new Filer.FailedBody();
+            }
+          }else if( !(success instanceof Filer.RespBody) ){
+            throw new Error('Success must be either a boolean or Filer.RespBody!');
+          }
+
+          // send response
+          return response.end(success.stringify());
+        });
+
+        // attach custom listeners excluding end
+        _.each(self._events, function(value, key, list){
+          if(key !== 'end') form.on(key, value);
+        });
+
+        if(callback){
+          var cb = callback;  
+          callback = function(err,fields,files){
+            Fiber(function(){
+              cb(err,fields,files);
+            }).run();
+          }
         }
-
-        // send response
-        return response.end(success.stringify());
-      });
-
-      // attach custom listeners excluding end
-      _.each(self._events, function(value, key, list){
-        if(key !== 'end') form.on(key, value);
-      });
-
-      // parse the damn form already
-      form.parse(request, callback);
+        // parse the damn form already
+        form.parse(request, callback);
     });
   }
 
