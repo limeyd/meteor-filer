@@ -33,11 +33,11 @@
   'use strict';
 
   var app = __meteor_bootstrap__.app,
-      require = __meteor_bootstrap__.require,
+      require = Npm.require,
       util = require('util'),
       fs = require('fs'),
       path = require('path'),
-      formidable = NodeModules.require('formidable');
+      formidable = Npm.require('formidable');
 
 
   // Filer
