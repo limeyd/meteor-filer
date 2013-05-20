@@ -5,7 +5,5 @@
   "homepage": "https://github.com/limeyd/meteor-filer",
   "version": "0.0.3",
   "git": "https://github.com/limeyd/meteor-filer.git",
-  "packages": {
-    "node-modules": {}
-  }
+  "packages": {}
 }
