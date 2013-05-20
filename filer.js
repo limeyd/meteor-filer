@@ -33,10 +33,9 @@
   'use strict';
 
   var app = __meteor_bootstrap__.app,
-      require = Npm.require,
-      util = require('util'),
-      fs = require('fs'),
-      path = require('path'),
+      util = Npm.require('util'),
+      fs = Npm.require('fs'),
+      path = Npm.require('path'),
       formidable = Npm.require('formidable');
 
 
