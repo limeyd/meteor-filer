@@ -35,6 +35,7 @@
   var app = __meteor_bootstrap__.app,
       util = Npm.require('util'),
       fs = Npm.require('fs'),
+      Fiber = Npm.require('fibers'),
       path = Npm.require('path'),
       formidable = Npm.require('formidable');
 
