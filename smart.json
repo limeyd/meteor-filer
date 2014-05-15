@@ -3,7 +3,7 @@
   "description": "A Multipart form handler for Meteor",
   "author": "Darren Pearce (https://github.com/limeyd)",
   "homepage": "https://github.com/limeyd/meteor-filer",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "git": "https://github.com/limeyd/meteor-filer.git",
   "packages": {}
 }
