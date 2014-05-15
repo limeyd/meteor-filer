@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "formidable": {
+      "version": "1.0.14"
+    }
+  }
+}
